@@ -178,6 +178,7 @@ function init(callback){
 	})
 }
 
+
 function moduleLoader(folder,suffix,expression,cb){
 	try{
 		var moduleHolder={}
@@ -248,7 +249,6 @@ exports.init_all_databases=function(callback){
 			})
 
 			veriAmbarlari.forEach((doc)=>{
-
 				exports.connectDatabase(doc._id,doc.userDb,doc.userDbHost,doc.dbName,(err)=>{
 					doc.finish=true
 				})

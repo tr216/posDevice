@@ -14,7 +14,7 @@
 	},
 	"development":{
 		"httpserver":{
-			"port" : 3600
+			"port" : 3700
 		},
 		"mongodb": {
 			"address":"mongodb://localhost:27017/etuliaportal",
@@ -27,10 +27,7 @@
 	},
 	"test":{
 		"httpserver":{
-			"port" : 3601
-		},
-		"host":{
-			"url" : "http://localhost:3001"
+			"port" : 3701
 		},
 		"mongodb": {
 			"address":"mongodb://localhost:27017/portal-test",

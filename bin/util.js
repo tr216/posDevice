@@ -1,8 +1,10 @@
-var os=require('os')
+require('colors')
+
 var request=require('request')
 var parseString = require('xml2js').parseString
 var js2xmlparser = require("js2xmlparser")
 
+global.os=require('os')
 global.uuid=require('uuid');
 
 Date.prototype.yyyymmdd = function () {

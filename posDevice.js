@@ -1,3 +1,4 @@
+
 global.fs=require('fs')
 global.path=require('path')
 var createError = require('http-errors')
@@ -9,6 +10,7 @@ var logger = require('morgan')
 var favicon = require('serve-favicon')
 
 global.util = require('./bin/util')
+global.mail=require('./bin/mail')
 
 
 var indexRouter = require('./routes/index')
@@ -36,21 +38,26 @@ module.exports=(cb)=>{
 	dbLoader((err)=>{
 		if(!err){
 			global.taskHelper=require('./bin/taskhelper')
-			global.eDespatch=require('./services/e-despatch/e-despatch')
-			eDespatch.start()
+			global.posDevice=require('./services/pos-device/pos-device')
+			posDevice.start()
 			cb(null,app)
-
 		}else{
 			cb(err)
 		}
-
 	})
 }
 
 
-
 process.on('uncaughtException', function (err) {
-	errorLog('app.js Caught exception: ', err)
+	errorLog('Caught exception: ', err)
+	
+	mail.sendErrorMail(`Err ${app.get('name')}`,err,(mailErr,info)=>{
+		if(mailErr)
+			console.log(`mailErr:`,mailErr)
+		console.log(`mail info:`,info)
+		process.exit(0)
+	})
+
 })
 
 
