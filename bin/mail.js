@@ -13,18 +13,18 @@ exports.sendMail = function (mailto,subject, body,cb){
         body = htmlToText.fromString(body, {wordwrap: 130})
         
         var transporter = nodemailer.createTransport(smtpTransport({
-            host: 'smtp.yandex.com',
-            port: 587,
-            secure:false,
+            host: privateConfig.mail.host,
+            port: privateConfig.mail.port,
+            secure:privateConfig.mail.secure,
             auth: {
-                user: 'keloglan@tr216.com',
-                pass: 'atabar18'
+                user: privateConfig.mail.auth.user,
+                pass: privateConfig.mail.auth.pass
             },
             tls: { rejectUnauthorized: false }
         }))
 
         var mailOptions = {
-            from: 'keloglan@tr216.com', 
+            from: privateConfig.mail.auth.user, 
             to: mailto,  
 
             subject: subject + '', // Subject line
