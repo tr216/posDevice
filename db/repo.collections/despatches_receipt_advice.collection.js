@@ -1,18 +1,18 @@
 module.exports=function(conn){
     var schema = mongoose.Schema({
-        ioType :{ type: Number,default: 0}, // 0 - cikis , 1- giris
+        ioType :{ type: Number,default: 1}, // 0 - cikis , 1- giris
+        despatch: {type: mongoose.Schema.Types.ObjectId, ref: 'despatches', required: true},
         eIntegrator: {type: mongoose.Schema.Types.ObjectId, ref: 'integrators', required: true},
         profileId: { 
             value: { type: String,default: '', trim:true, enum:['TEMELIRSALIYE'], required: true}
         },
         ID: dbType.idType,
         uuid: dbType.valueType,
-        issueDate: {value :{ type: String,  required: [true,'Fatura tarihi gereklidir']}},
+        issueDate: {value :{ type: String,  required: [true,'Teslim tarihi gereklidir']}},
         issueTime: {value :{ type: String,default: '00:00:00.0000000+03:00'}},
-        receiptAdviceTypeCode: dbType.codeType,
+        receiptAdviceTypeCode: {value: { type: String,default: '', trim:true, enum:['SEVK','MATBUDAN'], required: true}},
         note:[dbType.valueType],
         despatchDocumentReference:dbType.documentReferenceType,
-
         additionalDocumentReference:[dbType.documentReferenceType],
         orderReference:[dbType.orderReferenceType],
         originatorDocumentReference:[dbType.documentReferenceType],
@@ -36,9 +36,8 @@ module.exports=function(conn){
         lineCountNumeric:dbType.numberValueType,
         receiptLine:[dbType.receiptLineType],
         localDocumentId: {type: String, default: ''},
-        receiptStatus: {type: String, default: 'Draft',enum:['Draft','Pending','Queued', 'Processing','SentToGib','Approved','PartialApproved','Declined','WaitingForApprovement','Error']},
+        receiptStatus: {type: String, default: 'Draft',enum:['Draft','Pending','Queued', 'Processing','SentToGib','Success','Error']},
         receiptErrors:[{_date:{ type: Date,default: Date.now}, code:'',message:''}],
-        receiptStatus: {type: String, default: '',enum:['','transferring','pending','transferred','error']},
         receiptErrors:[{_date:{ type: Date,default: Date.now}, code:'',message:''}],
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now}
@@ -83,9 +82,9 @@ module.exports=function(conn){
         "uuid.value":1,
         "eIntegrator":1,
         "profileId.value":1,
-        "despatchTypeCode.value":1,
+        "receiptAdviceTypeCode.value":1,
         "localDocumentId":1,
-        "despatchStatus":1,
+        "receiptStatus":1,
         "localStatus":1,
         "createdDate":1
     });

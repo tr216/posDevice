@@ -51,7 +51,7 @@ module.exports=(cb)=>{
 process.on('uncaughtException', function (err) {
 	errorLog('Caught exception: ', err)
 	
-	mail.sendErrorMail(`Err ${app.get('name')}`,err,(mailErr,info)=>{
+	mail.sendErrorMail(`Err ${config.status} ${app.get('name')}`,err,(mailErr,info)=>{
 		if(mailErr)
 			console.log(`mailErr:`,mailErr)
 		console.log(`mail info:`,info)

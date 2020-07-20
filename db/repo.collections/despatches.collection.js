@@ -44,6 +44,7 @@ module.exports=function(conn){
         shipment:dbType.shipmentType,
         lineCountNumeric:dbType.numberValueType,
         despatchLine:[], // dbType.despatchLineType
+        receiptAdvice: {type: mongoose.Schema.Types.ObjectId, ref: 'despatches_receipt_advice'},
         localDocumentId: {type: String, default: ''},
         
         despatchStatus: {type: String, default: 'Draft',enum:['Deleted','Pending','Draft','Canceled','Queued', 'Processing','SentToGib','Approved','PartialApproved','Declined','WaitingForApprovement','Error']},

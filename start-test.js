@@ -3,7 +3,7 @@ config.status='test'
 
 var log=require('./bin/event-log')
 
-require('./posDevice')((err,app)=>{
+require('./posDeviceApp')((err,app)=>{
 	if(!err){
 		var http=require('./bin/http-server.js')(app)
 		eventLog(`application name:\t ${app.get('name').yellow}`)

@@ -2,7 +2,7 @@ module.exports=function(conn){
     var schema = mongoose.Schema({
         taskType: {type: String, required: true, enum:['connector_transfer_zreport','send_email','send_sms',
         'connector_import_einvoice','connector_export_einvoice','connector_import_eledger','einvoice_send_to_gib',
-        'einvoice_approve','einvoice_decline','edespatch_send_to_gib','edespatch_approve','edespatch_partial_approve']},
+        'einvoice_approve','einvoice_decline','edespatch_send_to_gib','edespatch_send_receipt_advice']},
         collectionName:{type: String, default:''},
         documentId: {type: mongoose.Schema.Types.ObjectId, default: null},
         document:{type: Object, default:null},

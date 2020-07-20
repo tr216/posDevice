@@ -120,11 +120,11 @@ function init(callback){
 		}
 	}
 
-	global.dbnull=(doc,cb)=>{
+	global.dbnull=(doc,cb,msg='Kayıt bulunamadı')=>{
 		if(doc!=null){
 			return true
 		}else{
-			var err={code:'RECORD_NOT_FOUND',message:'Kayıt bulunamadı'}
+			var err={code:'RECORD_NOT_FOUND',message:msg}
 			if(!cb){
 				throw err
 				return false
@@ -177,7 +177,6 @@ function init(callback){
 		eventLog('Mongoose default connection disconnected') 
 	})
 }
-
 
 function moduleLoader(folder,suffix,expression,cb){
 	try{
@@ -249,6 +248,7 @@ exports.init_all_databases=function(callback){
 			})
 
 			veriAmbarlari.forEach((doc)=>{
+
 				exports.connectDatabase(doc._id,doc.userDb,doc.userDbHost,doc.dbName,(err)=>{
 					doc.finish=true
 				})

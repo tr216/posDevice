@@ -421,12 +421,31 @@ const shipmentStageType={
     transportModeCode:codeType
 }
 
+const deliveryType={
+    ID:idType,
+    quantity:quantityType,
+    actualDeliveryDate:valueType,
+    actualDeliveryTime:valueType,
+    latestDeliveryDate:valueType,
+    latestDeliveryTime:valueType,
+    trackingId:valueType,
+    deliveryAddress:addressType,
+    alternativeDeliveryLocation:locationType,
+    estimatedDeliveryPeriod:periodType,
+    carrierParty:partyType,
+    deliveryParty:partyType,
+    despatch:{},
+    deliveryTerms:[],
+    shipment:{}
+}
+
+
 const shipmentType={
     ID:idType,
     declaredCustomsValueAmount : amountType,
     declaredForCarriageValueAmount : amountType,
     declaredStatisticsValueAmount : amountType,
-    delivery:{},
+    delivery:deliveryType,
     firstArrivalPortLocation:locationType,
     freeOnBoardValueAmount : amountType,
     goodsItem:[], //[goodsItemType]
@@ -444,24 +463,6 @@ const shipmentType={
     totalGoodsItemQuantity:quantityType,
     totalTransportHandlingUnitQuantity:quantityType,
     transportHandlingUnit:[] //[transportHandlingUnitType]
-}
-
-const deliveryType={
-    ID:idType,
-    actualDeliveryDate:valueType,
-    actualDeliveryTime:valueType,
-    alternativeDeliveryLocation:locationType,
-    carrierParty:partyType,
-    deliveryAddress:addressType,
-    deliveryParty:partyType,
-    deliveryTerms:[deliveryTermsType],
-    despatch:despatchType,
-    estimatedDeliveryPeriod:periodType,
-    latestDeliveryDate:valueType,
-    latestDeliveryTime:valueType,
-    quantity:quantityType,
-    trackingId :idType,
-    shipment:shipmentType
 }
 
 const invoiceLineType={
@@ -519,6 +520,8 @@ const billingReferenceType={
 
 
 }
+
+
 
 const despatchLineType={
     ID:idType,
@@ -700,6 +703,18 @@ const actionType={
     }
 
 }
+
+const receiptAdviceLineInfoType={
+	lineId:valueType,
+    timingComplaint:valueType,
+    receivedQuantity:quantityType,
+    rejectedQuantity:quantityType,
+    rejectReason:valueType,
+    rejectReasonCode:codeType,
+    shortQuantity:quantityType,
+    oversupplyQuantity:quantityType
+}
+
 module.exports = Object.freeze({
     valueType:valueType,
     idType:idType,
