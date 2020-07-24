@@ -9,7 +9,7 @@ module.exports=function(conn){
         ID: dbType.idType,
         uuid: dbType.valueType,
         issueDate: {value :{ type: String,  required: [true,'Teslim tarihi gereklidir']}},
-        issueTime: {value :{ type: String,default: '00:00:00.0000000+03:00'}},
+        issueTime: {value :{ type: String,default: '00:00:00'}},
         receiptAdviceTypeCode: {value: { type: String,default: '', trim:true, enum:['SEVK','MATBUDAN'], required: true}},
         note:[dbType.valueType],
         despatchDocumentReference:dbType.documentReferenceType,

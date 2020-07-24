@@ -144,7 +144,7 @@ function init(callback){
 		}) 
 	}) 
 
-	global.epValidateSync=(doc)=>{
+	global.epValidateSync=(doc,cb)=>{
 		var err = doc.validateSync()
 		if(err){
 			var keys=Object.keys(err.errors)
@@ -156,7 +156,13 @@ function init(callback){
 
 			})
 
-			throw returnError
+			if(cb){
+				cb(returnError)
+				return false
+			}
+			else{
+				throw returnError
+			}
 		}else{
 			return true
 		}
@@ -223,9 +229,16 @@ exports.connectDatabase=function(_id,userDb,userDbHost,dbName,cb){
 		repoDb[_id]['userDb']=_id
 		repoDb[_id]['dbName']=dbName
 		repoDb[_id]['conn']=usrConn
+		
 
-		if(cb)
-			cb(null)
+		exports.settings(_id,(err,settings)=>{
+
+			repoDb[_id]['settings']=settings
+			if(cb)
+				cb(null)
+		})
+
+		
 	}) 
 
 	usrConn.on('error',function (err) {  
@@ -279,4 +292,37 @@ exports.init_all_databases=function(callback){
 			callback(err)
 		}
 	})
+}
+
+
+global.getFileJSON=(fileName)=>{
+	var jsonStr=fs.readFileSync(fileName,'utf8')
+	return getJSON(jsonStr)
+}
+
+global.getJSON=(jsonStr)=>{
+	var dizi=jsonStr.split('\n')
+	var yeniStr=''
+	dizi.forEach((e)=>{
+		if(e.trim().indexOf('//')==0){
+
+		}else{
+			yeniStr+=e + '\n'
+		}
+	})
+	return JSON.parse(yeniStr)
+}
+
+exports.settings=(_id,cb)=>{
+	var defaultRepoSettings=getFileJSON(path.join(__dirname,'repo.resources','repodb-settings.json'))
+	var obj=clone(defaultRepoSettings)
+	db.dbdefines.findOne({_id:_id},(err,doc)=>{
+		if(!err){
+			if(doc){
+				obj=Object.assign(obj,doc.settings)
+			}
+		}
+		cb(null,obj)
+	})
+	
 }

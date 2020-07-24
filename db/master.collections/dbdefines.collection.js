@@ -10,6 +10,7 @@ var schema = mongoose.Schema({
         canDelete:{type: Boolean, default: false}
         }
     ],
+    settings:{type: Object, default:null},
     createdDate: { type: Date,default: Date.now},
     modifiedDate:{ type: Date,default: Date.now},
     version:{type: String, default: "", index:true},

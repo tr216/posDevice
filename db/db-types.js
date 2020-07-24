@@ -101,6 +101,8 @@ const addressType={
 }
 
 const partyType={
+		_id:{type: mongoose.Schema.Types.ObjectId, ref: 'parties'},
+    partyType:'',
     websiteURI:valueType,
     partyIdentification:[partyIdentificationType],
     partyName:{name:valueType},
@@ -305,20 +307,20 @@ const goodsItemType={
     declaredStatisticsValueAmount:amountType,
     description:valueType,
     freeOnBoardValueAmount:amountType,
-    freightAllowanceCharge:[allowanceChargeType],
+    freightAllowanceCharge:[], //allowanceChargeType
     grossVolumeMeasure:measureType,
     grossWeightMeasure:measureType,
     hazardousRiskIndicator:booleanValueType,
     insuranceValueAmount:amountType,
     invoiceLine:[],
-    item:[itemType],
+    item:[], //itemType
     measurementDimension:[dimensionType],
     NetVolumeMeasure:measureType,
     NetWeightMeasure:measureType,
     OriginAddress:addressType,
     quantity:quantityType,
     returnableQuantity:quantityType,
-    temperature:[temperatureType],
+    temperature:[], //temperatureType
     traceId:idType,
     valueAmount:amountType
 }
@@ -420,6 +422,7 @@ const shipmentStageType={
     driverPerson:[personType],
     transportModeCode:codeType
 }
+
 
 const deliveryType={
     ID:idType,
