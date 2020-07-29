@@ -10,6 +10,11 @@ var logger = require('morgan')
 var favicon = require('serve-favicon')
 
 global.util = require('./bin/util')
+global.privateConfig={}
+if(fs.existsSync('./private-config.json')){
+	global.privateConfig=require('./private-config.json')
+}
+
 global.mail=require('./bin/mail')
 
 
