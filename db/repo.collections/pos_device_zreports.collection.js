@@ -6,9 +6,9 @@ module.exports=function(conn){
         zTotal: { type: Number,default: 0},
         data: {type: Object, default: null},
         status: {type: String, default: '',enum:['','transferring','pending','transferred','error']},
+        error:{_date:{ type: Date,default: Date.now}, code:'',message:''},
         createdDate: { type: Date,default: Date.now},
-        modifiedDate:{ type: Date,default: Date.now},
-        error:{code:'',message:''}
+        modifiedDate:{ type: Date,default: Date.now}
     });
 
     schema.pre('save', function(next) {

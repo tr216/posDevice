@@ -50,7 +50,42 @@ var schema = mongoose.Schema({
     deviceToken: {type :String, default: ""},
     createdDate: { type: Date,default: Date.now},
     modifiedDate:{ type: Date,default: Date.now},
-    modules:{},
+    modules:{
+        eInvoice: {type: Boolean, default: false},
+        eDespatch: {type: Boolean, default: false},
+        eLedger: {type: Boolean, default: false},
+        eDocument: {type: Boolean, default: false},
+        erp: {type: Boolean, default: false},
+        mrp: {type: Boolean, default: false},
+        mrp2: {type: Boolean, default: false},
+        inventory: {type: Boolean, default: false},
+        finance: {type: Boolean, default: false},
+        sales: {type: Boolean, default: false},
+        purchase: {type: Boolean, default: false},
+        accounting: {type: Boolean, default: false},
+        cargoIntegrations: {
+            all:{type: Boolean, default: false},
+            suratkargo:{type: Boolean, default: false},
+            yurticikargo:{type: Boolean, default: false},
+            mngkargo:{type: Boolean, default: false},
+            pttkargo:{type: Boolean, default: false}
+        },
+        bankIntegrations: {
+            all:{type: Boolean, default: false},
+            garantibbva:{type: Boolean, default: false},
+            yapikredi:{type: Boolean, default: false},
+            finansbank:{type: Boolean, default: false}
+        },
+        webIntegrations: {
+            all:{type: Boolean, default: false},
+            opencart:{type: Boolean, default: false},
+            n11:{type: Boolean, default: false},
+            sahibinden:{type: Boolean, default: false},
+            gittigidiyor:{type: Boolean, default: false},
+            hepsiburada:{type: Boolean, default: false},
+        },
+        posDevice: {type: Boolean, default: false}
+    },
     passive: {type: Boolean, default: false}
 });
 
