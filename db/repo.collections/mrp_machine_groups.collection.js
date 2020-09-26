@@ -2,7 +2,8 @@ module.exports=function(conn){
     var schema = mongoose.Schema({
         name: {type: String, trim:true, required: true},
         createdDate: { type: Date,default: Date.now},
-        modifiedDate:{ type: Date,default: Date.now}
+        modifiedDate:{ type: Date,default: Date.now},
+        parameters:{type:Object,default:null}
     });
 
     schema.pre('save', function(next) {

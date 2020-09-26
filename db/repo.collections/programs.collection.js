@@ -4,6 +4,7 @@ module.exports=function(conn){
 		showButtonText: {type: Boolean, default: false},
 		type: {type: String, required: [true,'Program türü gereklidir.'],enum:['file-importer','file-exporter','connector-importer','connector-exporter','email','sms']},
 		icon: {type :String, default:''},		
+		class: {type :String, default:''},		
 		collections:[{
 			name:{type :String, default:''},
 			filter:{type :String, default:''},

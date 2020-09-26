@@ -54,7 +54,8 @@ module.exports=function(conn){
                 mold:{type: mongoose.Schema.Types.ObjectId, ref: 'mrp_molds', default:null},
                 cycle:dbType.measureType,
                 cavity:{ type: Number, default: 0},
-                quantityPerHour:{ type: Number, default: 0}
+                quantityPerHour:{ type: Number, default: 0},
+                parameters:{type:Object,default:null}
             }],
             input: [{
                 item:{type: mongoose.Schema.Types.ObjectId, ref: 'items'},
