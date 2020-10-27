@@ -1,7 +1,8 @@
 module.exports=function(conn){
     var schema = mongoose.Schema({
-        locationName: {type: String, trim:true, required:  [true,'isim gereklidir.']  , index:true},
-        locationType: {type: Number, required:  [true,'tur gereklidir.'] , default: 0, index:true}, //0=Depo , 1=Magaza , 2=Uretim , 3=Iade, 4=Seyyar, 5=Diger
+        name: {type: String, trim:true, required:  [true,'isim gereklidir.']  , index:true},
+        type: {type: String, required:  [true,'tur gereklidir.'] , default:'', 
+        enum:['warehouse','shop','manufacture','return','mobile','other'], index:true}, 
         hasSubLocations: {type: Boolean, default: false, index:true},
         createdDate: { type: Date,default: Date.now, index:true},
         modifiedDate:{ type: Date,default: Date.now},
