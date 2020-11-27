@@ -520,10 +520,7 @@ const billingReferenceType={
     reminderDocumentReference:documentReferenceType,
     selfBilledCreditNoteDocumentReference:documentReferenceType,
     selfBilledInvoiceDocumentReference:documentReferenceType
-
-
 }
-
 
 
 const despatchLineType={

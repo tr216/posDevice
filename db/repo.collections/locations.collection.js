@@ -3,9 +3,14 @@ module.exports=function(conn){
         name: {type: String, trim:true, required:  [true,'isim gereklidir.']  , index:true},
         type: {type: String, required:  [true,'tur gereklidir.'] , default:'', 
         enum:['warehouse','shop','manufacture','return','mobile','other'], index:true}, 
-        hasSubLocations: {type: Boolean, default: false, index:true},
         createdDate: { type: Date,default: Date.now, index:true},
         modifiedDate:{ type: Date,default: Date.now},
+        subLocations:[
+        	{
+        		name: {type: String, required:  [true,'isim gereklidir.']},
+        		passive: {type: Boolean, default: false}
+        	}
+        ],
         passive: {type: Boolean, default: false, index:true}
     });
 
