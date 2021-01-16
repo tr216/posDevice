@@ -42,6 +42,7 @@ function init(callback){
 	mongoose.set('useFindAndModify', false)
 
 
+
 	global.dbconn = mongoose.createConnection(config.mongodb.address,{ useNewUrlParser: true ,useUnifiedTopology:true, autoIndex: true  })
 
 	global.sendToTrash=(conn,collectionName,member,filter,cb)=>{

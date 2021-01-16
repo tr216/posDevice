@@ -1,6 +1,6 @@
 module.exports=function(conn){
     var schema = mongoose.Schema({
-        serviceType: {type: String, trim:true, required: [true,'Servis turu gereklidir'], default: 'ingenico', enum:['ingenico','beko','hugin','profilo','verifone','olivetti','veradelta']},
+        type: {type: String, trim:true, required: [true,'Servis turu gereklidir'], default: 'ingenico', enum:['ingenico','beko','hugin','profilo','verifone','olivetti','veradelta']},
         name: {type: String,  trim:true, required: [true,'Servis adi gereklidir']},
         url: {type: String, trim:true, default: ''},
         username: {type: String, trim:true, default: ''},

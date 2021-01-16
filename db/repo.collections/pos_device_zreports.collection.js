@@ -1,11 +1,11 @@
 module.exports=function(conn){
     var schema = mongoose.Schema({
-        posDevice: {type: mongoose.Schema.Types.ObjectId, ref: 'pos_devices', required: true},
-        zNo: { type: Number,default: 0},
-        zDate: { type: Date,default: null},
+        posDevice: {type: mongoose.Schema.Types.ObjectId, ref: 'pos_devices', required: true,index:true},
+        zNo: { type: Number,default: 0,index:true},
+        zDate: { type: Date,default: null,index:true},
         zTotal: { type: Number,default: 0},
         data: {type: Object, default: null},
-        status: {type: String, default: '',enum:['','transferring','pending','transferred','error']},
+        status: {type: String, default: '',enum:['','transferring','pending','transferred','error'],index:true},
         error:{_date:{ type: Date,default: Date.now}, code:'',message:''},
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now}
@@ -30,18 +30,17 @@ module.exports=function(conn){
 
     });
     
-
     
 
     schema.plugin(mongoosePaginate);
     schema.plugin(mongooseAggregatePaginate);
     
-    schema.index({
-        "zNo":1,
-        "zDate":1,
-        "status":1,
-        "posDevice":1
-    });
+    // schema.index({
+    //     "zNo":1,
+    //     "zDate":1,
+    //     "status":1,
+    //     "posDevice":1
+    // });
     
     var collectionName='pos_device_zreports';
     var model=conn.model(collectionName, schema);

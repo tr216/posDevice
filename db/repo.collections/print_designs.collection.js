@@ -1,13 +1,15 @@
 module.exports=function(conn){
     var schema = mongoose.Schema({
-        module: {type :String, trim:true, enum:[
-            'recipe','recipe-list','item','item-list','item-product',
-            'mrp-production-order-list','mrp-production-order','mrp-production-order-pallet','mrp-production-order-packing',
-            'despatch-inbox-list','despatch-inbox','despatch-outbox-list','despatch-outbox',
-            'order-inbox-list','order-inbox','order-outbox-list','order-outbox',
-            'inventory-list','inventory-fiche-list','inventory-fiche',
-            ''
-        ], required: true},
+        // module: {type :String, trim:true, enum:[
+        //     'recipe','recipe-list','item','item-list','item-product',
+        //     'mrp-production-order-list','mrp-production-order','mrp-production-order-pallet','mrp-production-order-packing',
+        //     'despatch-inbox-list','despatch-inbox','despatch-outbox-list','despatch-outbox',
+        //     'order-inbox-list','order-inbox','order-outbox-list','order-outbox',
+        //     'inventory-list','inventory-fiche-list','inventory-fiche',
+        //     ''
+        // ], required: true},
+				module: {type :String, trim:true, required: true},        
+				function: {type :String, trim:true, required: true},        
         name: {type :String, trim:true, default:''},
         design: {type :String, default:''},
         createdDate: { type: Date,default: Date.now},
