@@ -9,37 +9,37 @@ module.exports=function(conn){
         createdDate: { type: Date,default: Date.now,index:true},
         modifiedDate:{ type: Date,default: Date.now,index:true},
         error:{code:'',message:''}
-    });
+    })
 
     schema.pre('save', function(next) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
+    })
     
 
     
 
-    schema.plugin(mongoosePaginate);
-    schema.plugin(mongooseAggregatePaginate);
+    schema.plugin(mongoosePaginate)
+    schema.plugin(mongooseAggregatePaginate)
         
-    var collectionName='temp_table';
-    var model=conn.model(collectionName, schema);
+    var collectionName='temp_table'
+    var model=conn.model(collectionName, schema)
     
-    // model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    // model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
-    return model;
+    return model
 }

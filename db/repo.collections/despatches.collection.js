@@ -53,39 +53,39 @@ module.exports=function(conn){
         localErrors:[{_date:{ type: Date,default: Date.now}, code:'',message:''}],
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now}
-    });
+    })
 
     
 
     schema.pre('save', function(next) {
         if(this.despatchLine){
-            this.lineCountNumeric.value=this.despatchLine.length;
+            this.lineCountNumeric.value=this.despatchLine.length
         }
         
-        updateActions(conn,this,next);
+        updateActions(conn,this,next)
        
-        //next();
+        //next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
+        // next(new Error('ters giden birseyler var'))
         
-    });
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
+    })
     
 
-    schema.plugin(mongoosePaginate);
-    schema.plugin(mongooseAggregatePaginate);
+    schema.plugin(mongoosePaginate)
+    schema.plugin(mongooseAggregatePaginate)
     
     schema.index({
         "ioType":1,
@@ -99,50 +99,50 @@ module.exports=function(conn){
         "despatchStatus":1,
         "localStatus":1,
         "createdDate":1
-    });
+    })
 
-    var collectionName='despatches';
-    var model=conn.model(collectionName, schema);
+    var collectionName='despatches'
+    var model=conn.model(collectionName, schema)
     
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
-    return model;
+    return model
 }
 
 
 function updateActions(conn,doc,next){
     
-    var index=0;
+    var index=0
     function kaydet(cb){
-        if(index>=doc.despatchLine.length) return cb(null);
+        if(index>=doc.despatchLine.length) return cb(null)
         if(doc.despatchLine[index].item._id){
-            var newActionDoc=conn.model('actions')(dbType.actionType);
-            newActionDoc.actionType='despatch';
-            newActionDoc.ioType=doc.ioType;
-            newActionDoc.actionCode=doc.despatchAdviceTypeCode.value;
-            newActionDoc.issueDate=doc.issueDate.value;
-            newActionDoc.issueTime=doc.issueTime.value;
-            newActionDoc.docId=doc._id;
-            newActionDoc.docNo=doc.ID.value;
-            newActionDoc.inventory.locationId=doc.location;
-            newActionDoc.inventory.locationId2=doc.location;
-            newActionDoc.inventory.itemId=doc.despatchLine[index].item._id;
-            newActionDoc.inventory.quantity=doc.despatchLine[index].deliveredQuantity.value;
-            newActionDoc.description='';
-            newActionDoc.modifiedDate=new Date();
+            var newActionDoc=conn.model('actions')(dbType.actionType)
+            newActionDoc.actionType='despatch'
+            newActionDoc.ioType=doc.ioType
+            newActionDoc.actionCode=doc.despatchAdviceTypeCode.value
+            newActionDoc.issueDate=doc.issueDate.value
+            newActionDoc.issueTime=doc.issueTime.value
+            newActionDoc.docId=doc._id
+            newActionDoc.docNo=doc.ID.value
+            newActionDoc.inventory.locationId=doc.location
+            newActionDoc.inventory.locationId2=doc.location
+            newActionDoc.inventory.itemId=doc.despatchLine[index].item._id
+            newActionDoc.inventory.quantity=doc.despatchLine[index].deliveredQuantity.value
+            newActionDoc.description=''
+            newActionDoc.modifiedDate=new Date()
             
             newActionDoc.save((err,newActionDoc2)=>{
                 if(!err){
-                    index++;
-                    setTimeout(kaydet,0,cb);
+                    index++
+                    setTimeout(kaydet,0,cb)
                 }else{
-                   cb(err);
+                   cb(err)
                 }
             })
              
         }else{
-            index++;
-            setTimeout(kaydet,0,cb);
+            index++
+            setTimeout(kaydet,0,cb)
         }
         
     }
@@ -150,19 +150,19 @@ function updateActions(conn,doc,next){
     conn.model('actions').deleteMany({docId:doc._id},(err,docs)=>{
         if(err){
             
-            errorLog(err);
-            next(err);
+            errorLog(err)
+            next(err)
         }else{
             kaydet((err)=>{
                if(err){
-                   errorLog(err);
+                   errorLog(err)
                   
-                   next(err); 
+                   next(err) 
                }else{
                    
-                   next();
+                   next()
                }
-            });
+            })
         }
         
     })

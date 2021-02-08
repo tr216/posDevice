@@ -11,41 +11,41 @@ module.exports=function(conn){
         status:{type: String, required: true, default:'pending', enum:['running','pending','completed','cancelled','error']},
         attemptCount:{type:Number,default:1},
         error:[]
-    });
+    })
 
     schema.pre('save', function(next) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
-    schema.plugin(mongoosePaginate);
+    })
+    schema.plugin(mongoosePaginate)
     schema.index({
         "taskType":1,
         "collectionName":1,
         "documentId":1,
         "startDate":1,
         "status":1
-    });
+    })
 
-    var collectionName='tasks';
-    var model=conn.model(collectionName, schema);
+    var collectionName='tasks'
+    var model=conn.model(collectionName, schema)
     
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
     //model.relations={pos_device_zreports:'posDevice'}
 
-    return model;
+    return model
 }

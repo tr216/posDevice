@@ -16,27 +16,27 @@ var schema = mongoose.Schema({
     version:{type: String, default: "", index:true},
     deleted: {type: Boolean, default: false, index:true},
     passive: {type: Boolean, default: false, index:true}
-});
+})
 
 schema.pre('save', function(next) {
-    next();
+    next()
     //bir seyler ters giderse 
-    // next(new Error('ters giden birseyler var'));
-});
+    // next(new Error('ters giden birseyler var'))
+})
 schema.pre('remove', function(next) {
-    next();
-});
+    next()
+})
 
 schema.pre('remove', true, function(next, done) {
-    next();
+    next()
     //bir seyler ters giderse 
-    // next(new Error('ters giden birseyler var'));
-});
+    // next(new Error('ters giden birseyler var'))
+})
 
 schema.on('init', function(model) {
 
-});
+})
 
-schema.plugin(mongoosePaginate);
+schema.plugin(mongoosePaginate)
 
-module.exports = dbconn.model('dbdefines', schema);
+module.exports = dbconn.model('dbdefines', schema)

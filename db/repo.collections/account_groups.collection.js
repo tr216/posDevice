@@ -10,40 +10,40 @@ module.exports=function(conn){
         costOfGoodsSoldAccount: {type: mongoose.Schema.Types.ObjectId, ref: 'accounts', default:null },
         createdDate: { type: Date,default: Date.now, index:true },
         modifiedDate:{ type: Date,default: Date.now, index:true }
-    });
+    })
    
     schema.pre('save', function(next) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
-    schema.plugin(mongoosePaginate);
+    })
+    schema.plugin(mongoosePaginate)
     
     schema.index({
         "name":1
-    },{unique:true});
-    var collectionName='account_groups';
-    var model=conn.model(collectionName, schema);
+    },{unique:true})
+    var collectionName='account_groups'
+    var model=conn.model(collectionName, schema)
     
 
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
-    // model.removeMany=(member, filter,cb)=>{ sendToTrashMany(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
+    // model.removeMany=(member, filter,cb)=>{ sendToTrashMany(conn,collectionName,member,filter,cb) }
     model.relations={items:'accountGroup'}
 
-    return model;
+    return model
 }
 

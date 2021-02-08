@@ -16,45 +16,45 @@ var schema = mongoose.Schema({
     lastOnline:{ type: Date,default: Date.now},
     lastError: {type: String, default:""},
     passive: {type: Boolean, default: false}
-});
+})
 
 schema.pre('save', function(next) {
     if(this.connectorId==0){
-        this.connectorId=112600420;
+        this.connectorId=112600420
         dbconn.model('etulia_connectors').findOne({}).sort({connectorId:-1}).exec((err,doc)=>{
             if(!err){
                 if(doc!=null){
-                    this.connectorId=doc.connectorId+1;
+                    this.connectorId=doc.connectorId+1
                 }
             }else{
-                console.log('save error:',err);
+                console.log('save error:',err)
             }
-            next();
-        });
+            next()
+        })
         
     }else{
-        next();
+        next()
     }
     
     //bir seyler ters giderse 
-    // next(new Error('ters giden birseyler var'));
-});
+    // next(new Error('ters giden birseyler var'))
+})
 schema.pre('remove', function(next) {
-    next();
-});
+    next()
+})
 
 schema.pre('remove', true, function(next, done) {
-    next();
+    next()
     //bir seyler ters giderse 
-    // next(new Error('ters giden birseyler var'));
-});
+    // next(new Error('ters giden birseyler var'))
+})
 
 
 
 
 schema.on('init', function(model) {
  
-});
+})
 
 
-module.exports = dbconn.model('local_connectors', schema);
+module.exports = dbconn.model('local_connectors', schema)

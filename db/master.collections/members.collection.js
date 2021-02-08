@@ -52,34 +52,34 @@ var schema = mongoose.Schema({
     modifiedDate:{ type: Date,default: Date.now},
     modules:{},
     passive: {type: Boolean, default: false}
-});
+})
 
 schema.pre('save',function(next){
-	next();
+	next()
 	//bir seyler ters giderse 
-	// next(new Error('ters giden birseyler var'));
-});
+	// next(new Error('ters giden birseyler var'))
+})
 schema.pre('remove',function(next){
-	next();
-});
+	next()
+})
 
 
 schema.pre('remove', true, function (next, done) {
-  	next();
+  	next()
 	//bir seyler ters giderse 
-	// next(new Error('ters giden birseyler var'));
-});
+	// next(new Error('ters giden birseyler var'))
+})
 
 schema.on('init', function (model) {
 
-});
+})
 
-schema.plugin(mongoosePaginate);
-schema.plugin(mongooseAggregatePaginate);
+schema.plugin(mongoosePaginate)
+schema.plugin(mongooseAggregatePaginate)
 
-var model=dbconn.model('members', schema);
+var model=dbconn.model('members', schema)
 
-schema.index({ name: 'text', lastName: 'text'},{default_language: "turkish" ,name:'members_searchindex', weights:{name:10,lastName:5}});
-model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+schema.index({ name: 'text', lastName: 'text'},{default_language: "turkish" ,name:'members_searchindex', weights:{name:10,lastName:5}})
+model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
 
-module.exports=model;
+module.exports=model

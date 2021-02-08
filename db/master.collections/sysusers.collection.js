@@ -12,29 +12,29 @@ var schema = mongoose.Schema({
     createdDate: { type: Date,default: Date.now},
     modifiedDate:{ type: Date,default: Date.now},
     passive: {type: Boolean, default: false}
-});
+})
 
 schema.pre('save',function(next){
-	next();
+	next()
 	//bir seyler ters giderse 
-	// next(new Error('ters giden birseyler var'));
-});
+	// next(new Error('ters giden birseyler var'))
+})
 schema.pre('remove',function(next){
-	next();
-});
+	next()
+})
 
 
 schema.pre('remove', true, function (next, done) {
-  	next();
+  	next()
 	//bir seyler ters giderse 
-	// next(new Error('ters giden birseyler var'));
-});
+	// next(new Error('ters giden birseyler var'))
+})
 
 schema.on('init', function (model) {
 
-});
+})
 
-var model=dbconn.model('sysusers', schema);
+var model=dbconn.model('sysusers', schema)
 model.countDocuments({},(err,c)=>{
     if(!err){
         if(c==0){
@@ -46,10 +46,10 @@ model.countDocuments({},(err,c)=>{
                 lastName:'Castle',
                 gender:'male',
                 auth:{createUser:true,modifyMembers:true}
-            });
-            newDoc.save();
+            })
+            newDoc.save()
         }
     }
-});
+})
 
-module.exports=model;
+module.exports=model

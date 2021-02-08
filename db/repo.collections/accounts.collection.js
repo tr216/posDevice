@@ -19,7 +19,7 @@ module.exports=function(conn){
         ],
         createdDate: { type: Date,default: Date.now, index:true },
         modifiedDate:{ type: Date,default: Date.now, index:true }
-    });
+    })
 
    
     schema.pre('save', function(next) {
@@ -27,39 +27,39 @@ module.exports=function(conn){
             conn.model('accounts').findOne({_id:this.parentAccount},(err,parentDoc)=>{
                 if(!err){
                     if(parentDoc!=null){
-                        this.accountCode=parentDoc.accountCode + '.' + this.code;
+                        this.accountCode=parentDoc.accountCode + '.' + this.code
                     }
                 }else{
-                    return next(new Error({name:err.name,message:err.message}));
+                    return next(new Error({name:err.name,message:err.message}))
                 }
-                next();
+                next()
                 
-            });
+            })
 
         }else{
-            this.accountCode=this.code;
-            next();
+            this.accountCode=this.code
+            next()
         }
 
 
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
-    schema.plugin(mongoosePaginate);
+    })
+    schema.plugin(mongoosePaginate)
     schema.index({
         "accountCode":1,
         "code":1,
@@ -67,18 +67,18 @@ module.exports=function(conn){
         "balanceAmount":1,
         "balanceQuantity":1,
         "createdDate":1
-    });
+    })
     schema.index({
         "accountCode":1
-    },{unique:true});
-    var collectionName='accounts';
-    var model=conn.model(collectionName, schema);
+    },{unique:true})
+    var collectionName='accounts'
+    var model=conn.model(collectionName, schema)
     
 
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
-    // model.removeMany=(member, filter,cb)=>{ sendToTrashMany(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
+    // model.removeMany=(member, filter,cb)=>{ sendToTrashMany(conn,collectionName,member,filter,cb) }
     model.relations={accounts:'parentAccount', parties:'account'}
 
-    return model;
+    return model
 }
 

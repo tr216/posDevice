@@ -124,35 +124,35 @@ module.exports=function(conn){
         modifiedDate:{ type: Date,default: Date.now},
         isDefault: {type: Boolean, default: false},
         passive: {type: Boolean, default: false}
-    });
+    })
 
     schema.pre('save', function(next) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
-    schema.plugin(mongoosePaginate);
+    })
+    schema.plugin(mongoosePaginate)
     
 
-    var collectionName='integrators';
-    var model=conn.model(collectionName, schema);
+    var collectionName='integrators'
+    var model=conn.model(collectionName, schema)
     
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
     // model.relations={pos_device_zreports:'posDevice'}
 
-    return model;
+    return model
 }

@@ -54,46 +54,46 @@ module.exports=function(conn){
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now},
         passive: {type: Boolean, default: false}
-    });
+    })
 
     
 
     schema.pre('save', function(next) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
+        // next(new Error('ters giden birseyler var'))
         
-    });
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
+    })
     
 
-    schema.plugin(mongoosePaginate);
-    schema.plugin(mongooseAggregatePaginate);
+    schema.plugin(mongoosePaginate)
+    schema.plugin(mongooseAggregatePaginate)
     
     schema.index({
         "item":1,
         "name":1,
         "description":1,
         "createdDate":1
-    });
+    })
 
 
-    var collectionName='recipes';
-    var model=conn.model(collectionName, schema);
+    var collectionName='recipes'
+    var model=conn.model(collectionName, schema)
     
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
-    return model;
+    return model
 }

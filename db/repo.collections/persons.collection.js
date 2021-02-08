@@ -19,30 +19,30 @@ module.exports=function(conn){
         monthlyCost:{type:Number , default:0},
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now}
-    });
+    })
 
     schema.pre('save', function(next) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
+    })
     
 
-    schema.plugin(mongoosePaginate);
-    schema.plugin(mongooseAggregatePaginate);
+    schema.plugin(mongoosePaginate)
+    schema.plugin(mongooseAggregatePaginate)
     
     schema.index({
         'firstName.value':1,
@@ -56,12 +56,12 @@ module.exports=function(conn){
         'station':1,
         "passive":1,
         "createdDate":1
-    });
+    })
 
-    var collectionName='persons';
-    var model=conn.model(collectionName, schema);
+    var collectionName='persons'
+    var model=conn.model(collectionName, schema)
     
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
-    return model;
+    return model
 }

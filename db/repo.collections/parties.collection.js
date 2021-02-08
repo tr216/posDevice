@@ -5,9 +5,9 @@ module.exports=function(conn){
         	validate: {
               validator: function(v) {
                 if((this.partyType=='CustomerAgeny' || this.partyType=='VendorAgeny') && ( (v || '') == '')){
-                    return false;
+                    return false
                 }else{
-                    return true;
+                    return true
                 }
               },
               message: 'Acente eklerken, ana firma secmelisiniz'
@@ -32,30 +32,30 @@ module.exports=function(conn){
         passive:{type:Boolean , default:false},
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now}
-    });
+    })
 
     schema.pre('save', function(next) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
+    })
     
 
-    schema.plugin(mongoosePaginate);
-    schema.plugin(mongooseAggregatePaginate);
+    schema.plugin(mongoosePaginate)
+    schema.plugin(mongooseAggregatePaginate)
     
     schema.index({
         "partyName.name.value":1,
@@ -68,12 +68,12 @@ module.exports=function(conn){
         "person.familyName.value":1,
         "createdDate":1,
         "tags":1
-    });
+    })
 
-    var collectionName='parties';
-    var model=conn.model(collectionName, schema);
+    var collectionName='parties'
+    var model=conn.model(collectionName, schema)
     
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
-    return model;
+    return model
 }

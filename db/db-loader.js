@@ -213,33 +213,38 @@ function moduleLoader(folder,suffix,expression,cb){
 	}
 }
 
-exports.connectDatabase=function(_id,userDb,userDbHost,dbName,cb){
-	if(repoDb[_id]!=undefined){
+//_id,userDb,userDbHost,dbName,
+
+exports.connectDatabase=function(dbDoc,cb){
+	if(repoDb[dbDoc._id]!=undefined){
 		return cb(null)
 	}
 
-	var usrConn = mongoose.createConnection(userDbHost + userDb,{ useNewUrlParser: true, useUnifiedTopology:true, autoIndex: true})
+	var usrConn = mongoose.createConnection(dbDoc.userDbHost + dbDoc.userDb,{ useNewUrlParser: true, useUnifiedTopology:true, autoIndex: true})
 	usrConn.on('connected', function () {  
-		eventLog(`repository db ${dbName.brightGreen} connected.`)
-		repoDb[_id]={}
+		eventLog(`repository db ${dbDoc.dbName.brightGreen} connected.`)
+		repoDb[dbDoc._id]={}
 		Object.keys(repoDbModels).forEach((e)=>{
-			repoDb[_id][e]=repoDbModels[e](usrConn)
+			repoDb[dbDoc._id][e]=repoDbModels[e](usrConn)
 		})
 
-		repoDb[_id]['_id']=_id
-		repoDb[_id]['userDb']=_id
-		repoDb[_id]['dbName']=dbName
-		repoDb[_id]['conn']=usrConn
+		repoDb[dbDoc._id]['_id']=dbDoc._id
+		repoDb[dbDoc._id]['owner']=dbDoc.owner
+		repoDb[dbDoc._id]['userDb']=dbDoc.userDb
+		repoDb[dbDoc._id]['userDbHost']=dbDoc.userDbHost
+		repoDb[dbDoc._id]['dbName']=dbDoc.dbName
+		repoDb[dbDoc._id]['authorizedMembers']=dbDoc.authorizedMembers || []
+		repoDb[dbDoc._id]['conn']=usrConn
 		
 
-		exports.settings(_id,(err,settings)=>{
+		// exports.settings(dbDoc._id,(err,settings)=>{
 
-			repoDb[_id]['settings']=settings
-			if(cb)
-				cb(null)
-		})
-
-		
+		// 	repoDb[dbDoc._id]['settings']=settings
+		// 	if(cb)
+		// 		cb(null)
+		// })
+		if(cb)
+			cb(null)
 	}) 
 
 	usrConn.on('error',function (err) {  
@@ -263,7 +268,7 @@ exports.init_all_databases=function(callback){
 
 			veriAmbarlari.forEach((doc)=>{
 
-				exports.connectDatabase(doc._id,doc.userDb,doc.userDbHost,doc.dbName,(err)=>{
+				exports.connectDatabase(doc,(err)=>{
 					doc.finish=true
 				})
 			})
@@ -314,16 +319,16 @@ global.getJSON=(jsonStr)=>{
 	return JSON.parse(yeniStr)
 }
 
-exports.settings=(_id,cb)=>{
-	var defaultRepoSettings=getFileJSON(path.join(__dirname,'repo.resources','repodb-settings.json'))
-	var obj=clone(defaultRepoSettings)
-	db.dbdefines.findOne({_id:_id},(err,doc)=>{
-		if(!err){
-			if(doc){
-				obj=Object.assign(obj,doc.settings)
-			}
-		}
-		cb(null,obj)
-	})
+// exports.settings=(_id,cb)=>{
+// 	var defaultRepoSettings=getFileJSON(path.join(__dirname,'repo.resources','repodb-settings.json'))
+// 	var obj=clone(defaultRepoSettings)
+// 	db.dbdefines.findOne({_id:_id},(err,doc)=>{
+// 		if(!err){
+// 			if(doc){
+// 				obj=Object.assign(obj,doc.settings)
+// 			}
+// 		}
+// 		cb(null,obj)
+// 	})
 	
-}
+// }

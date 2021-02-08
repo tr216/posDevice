@@ -8,35 +8,35 @@ module.exports=function(conn){
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now},
         passive: {type: Boolean, default: false}
-    });
+    })
 
     schema.pre('save', function(next) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
-    schema.plugin(mongoosePaginate);
+    })
+    schema.plugin(mongoosePaginate)
     
 
-    var collectionName='pos_device_services';
-    var model=conn.model(collectionName, schema);
+    var collectionName='pos_device_services'
+    var model=conn.model(collectionName, schema)
     
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
     model.relations={pos_devices:'service'}
 
-    return model;
+    return model
 }

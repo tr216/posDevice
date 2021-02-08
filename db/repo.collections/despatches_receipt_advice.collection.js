@@ -41,39 +41,39 @@ module.exports=function(conn){
         receiptErrors:[{_date:{ type: Date,default: Date.now}, code:'',message:''}],
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now}
-    });
+    })
 
     
 
     schema.pre('save', function(next) {
         if(this.receiptLine){
-            this.lineCountNumeric.value=this.receiptLine.length;
+            this.lineCountNumeric.value=this.receiptLine.length
         }
         
 
        
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
+        // next(new Error('ters giden birseyler var'))
         
-    });
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
+    })
     
 
-    schema.plugin(mongoosePaginate);
-    schema.plugin(mongooseAggregatePaginate);
+    schema.plugin(mongoosePaginate)
+    schema.plugin(mongooseAggregatePaginate)
     
     schema.index({
         "ioType":1,
@@ -87,13 +87,13 @@ module.exports=function(conn){
         "receiptStatus":1,
         "localStatus":1,
         "createdDate":1
-    });
+    })
 
 
-    var collectionName='despatches_receipt_advice';
-    var model=conn.model(collectionName, schema);
+    var collectionName='despatches_receipt_advice'
+    var model=conn.model(collectionName, schema)
     
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
-    return model;
+    return model
 }

@@ -50,27 +50,27 @@ var schema = mongoose.Schema({
         customers:{canRead:false,canWrite:false,canDelete:false},
         vendors:{canRead:false,canWrite:false,canDelete:false}
     }
-});
+})
 
 schema.pre('save', function(next) {
-    next();
+    next()
     //bir seyler ters giderse 
-    // next(new Error('ters giden birseyler var'));
-});
+    // next(new Error('ters giden birseyler var'))
+})
 schema.pre('remove', function(next) {
-    next();
-});
+    next()
+})
 
 schema.pre('remove', true, function(next, done) {
-    next();
+    next()
     //bir seyler ters giderse 
-    // next(new Error('ters giden birseyler var'));
-});
+    // next(new Error('ters giden birseyler var'))
+})
 
 schema.on('init', function(model) {
 
-});
+})
 
-schema.plugin(mongoosePaginate);
+schema.plugin(mongoosePaginate)
 
-module.exports = dbconn.model('modules', schema);
+module.exports = dbconn.model('modules', schema)

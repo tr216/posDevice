@@ -3,26 +3,26 @@ module.exports= function(conn){
         name: {type:String, default: ""},
         code: {type:String, default: ""}
         
-    });
+    })
 
     schema.pre('save',function(next){
-    	next();
+    	next()
     	//bir seyler ters giderse 
-    	// next(new Error('ters giden birseyler var'));
-    });
+    	// next(new Error('ters giden birseyler var'))
+    })
     schema.pre('remove',function(next){
-    	next();
-    });
+    	next()
+    })
 
     schema.pre('remove', true, function (next, done) {
-      	next();
+      	next()
     	//bir seyler ters giderse 
-    	// next(new Error('ters giden birseyler var'));
-    });
+    	// next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function (model) {
 
-    });
-    //schema.plugin(autoIncrement.plugin, { model: 'countryList', field: '_rowid'});
-    return conn.model('countryList', schema);
+    })
+    //schema.plugin(autoIncrement.plugin, { model: 'countryList', field: '_rowid'})
+    return conn.model('countryList', schema)
 }

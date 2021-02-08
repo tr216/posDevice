@@ -12,9 +12,9 @@ module.exports=function(conn){
                 validate: {
                   validator: function(v) {
                     if(this.ioType==0 && v!='' && v.length!=16){
-                        return false;
+                        return false
                     }else{
-                        return true;
+                        return true
                     }
                   },
                   message: 'Fatura numarasi 16 karakter olmalidir veya bos birakiniz.'
@@ -29,9 +29,9 @@ module.exports=function(conn){
                 validate: {
                   validator: function(v) {
                     if(this.ioType==0 && (this.profileId=='IHRACAT' || this.profileId=='YOLCUBERABERFATURA') && v!='ISTISNA'){
-                        return false;
+                        return false
                     }else{
-                        return true;
+                        return true
                     }
                   },
                   message: 'Senaryo: IHRACAT veya YOLCUBERABERFATURA oldugunda fatura turu ISTISNA olarak secilmelidir.'
@@ -98,37 +98,37 @@ module.exports=function(conn){
         localErrors:[{_date:{ type: Date,default: Date.now}, code:'',message:''}],
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now}
-    });
+    })
 
     
 
     schema.pre('save', function(next) {
         if(this.invoiceLine){
-            this.lineCountNumeric.value=this.invoiceLine.length;
+            this.lineCountNumeric.value=this.invoiceLine.length
         }
                
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
+        // next(new Error('ters giden birseyler var'))
         
-    });
+    })
     schema.pre('remove', function(next) {
-        next();
-    });
+        next()
+    })
 
     schema.pre('remove', true, function(next, done) {
-        next();
+        next()
         //bir seyler ters giderse 
-        // next(new Error('ters giden birseyler var'));
-    });
+        // next(new Error('ters giden birseyler var'))
+    })
 
     schema.on('init', function(model) {
 
-    });
+    })
     
 
-    schema.plugin(mongoosePaginate);
-    schema.plugin(mongooseAggregatePaginate);
+    schema.plugin(mongoosePaginate)
+    schema.plugin(mongooseAggregatePaginate)
     
     schema.index({
         "ioType":1,
@@ -143,13 +143,13 @@ module.exports=function(conn){
         "invoiceStatus":1,
         "localStatus":1,
         "createdDate":1
-    });
+    })
 
 
-    var collectionName='invoices';
-    var model=conn.model(collectionName, schema);
+    var collectionName='invoices'
+    var model=conn.model(collectionName, schema)
     
-    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+    model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
     
-    return model;
+    return model
 }

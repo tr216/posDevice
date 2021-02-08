@@ -1,10 +1,10 @@
 module.exports=function(conn){
 	var schema = mongoose.Schema({
 		name: {type: String, required: [true,'Isim gereklidir.']},
-		showButtonText: {type: Boolean, default: false},
+		// showButtonText: {type: Boolean, default: false},
 		type: {type: String, required: [true,'Program türü gereklidir.'],enum:['file-importer','file-exporter','connector-importer','connector-exporter','email','sms']},
-		icon: {type :String, default:''},		
-		class: {type :String, default:''},		
+		// icon: {type :String, default:''},		
+		// class: {type :String, default:''},		
 		collections:[{
 			name:{type :String, default:''},
 			filter:{type :String, default:''},
@@ -75,7 +75,7 @@ module.exports=function(conn){
 	var collectionName='programs'
 	var model=conn.model(collectionName, schema)
 
-	model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb); }
+	model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
 
     //model.relations={pos_devices:'localConnector'}
 

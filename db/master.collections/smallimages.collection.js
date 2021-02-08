@@ -9,25 +9,25 @@ var schema = mongoose.Schema({
     uploaddate: {type:Date,default: Date('1900-01-01')},
     deleted: {type:Boolean, default: false},
     deleteddate: {type:Date,default: Date('1900-01-01')}
-});
+})
 
 schema.pre('save',function(next){
-	next();
+	next()
 	//bir seyler ters giderse 
-	// next(new Error('ters giden birseyler var'));
-});
+	// next(new Error('ters giden birseyler var'))
+})
 schema.pre('remove',function(next){
-	next();
-});
+	next()
+})
 
 schema.pre('remove', true, function (next, done) {
-  	next();
+  	next()
 	//bir seyler ters giderse 
-	// next(new Error('ters giden birseyler var'));
-});
+	// next(new Error('ters giden birseyler var'))
+})
 
 schema.on('init', function (model) {
 
-});
+})
 
-module.exports= dbconn.model('smallimages', schema);
+module.exports= dbconn.model('smallimages', schema)

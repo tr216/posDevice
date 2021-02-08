@@ -7,32 +7,32 @@ var schema = mongoose.Schema({
     systemCreateDate: { type: Date,default: Date.now},
     firstCreateDate: { type: Date,default: Date.now},
     enabled: {type: Boolean, default: false,index:true}
-});
+})
 
 schema.pre('save', function(next) {
-   next();
+   next()
     
     //bir seyler ters giderse 
-    // next(new Error('ters giden birseyler var'));
-});
+    // next(new Error('ters giden birseyler var'))
+})
 schema.pre('remove', function(next) {
-    next();
-});
+    next()
+})
 
 schema.pre('remove', true, function(next, done) {
-    next();
+    next()
     //bir seyler ters giderse 
-    // next(new Error('ters giden birseyler var'));
-});
+    // next(new Error('ters giden birseyler var'))
+})
 
-schema.plugin(mongoosePaginate);
+schema.plugin(mongoosePaginate)
 
 
 
 schema.on('init', function(model) {
  
-});
+})
 
 
 
-module.exports = dbconn.model('einvoice_users', schema);
+module.exports = dbconn.model('einvoice_users', schema)
