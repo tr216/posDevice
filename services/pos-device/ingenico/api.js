@@ -47,7 +47,7 @@ exports.getZReport=(serviceOptions,reqOptions,cb)=>{
 			var index=0;
 
 			function detaylariIndir(callb){
-				eventLog('detaylariIndir:' + index + '/' + resp.ZReportItems.length)
+				eventLog(`${serviceOptions.name.cyan} detaylariIndir: ${index}/${resp.ZReportItems.length}`)
 				if(index>=resp.ZReportItems.length) return callb(null);
 				exports.getZReportSubParts(serviceOptions,reqOptions,resp.ZReportItems[index].ZNo,resp.ZReportItems[index].EkuNo,(err,subResult)=>{
 					if(!err){

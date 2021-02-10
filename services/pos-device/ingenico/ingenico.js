@@ -15,7 +15,7 @@ exports.download=(dbModel,serviceDoc,posDeviceDocs,callback)=>{
 						//eventLog('reqOpt:',reqOpt);
 						api.getZReport(serviceDoc,reqOpt,(err,resp)=>{
 							if(!err){
-								eventLog('resp.ZReportItems.length:',resp.ZReportItems.length.toString());
+								eventLog(`${dbModel.dbName.yellow} resp.ZReportItems.length:`,resp.ZReportItems.length.toString());
 								
 								insertZReports(dbModel,posDeviceDocs[index],resp.ZReportItems,(err)=>{
 									if(!err){
@@ -24,27 +24,27 @@ exports.download=(dbModel,serviceDoc,posDeviceDocs,callback)=>{
 										setTimeout(zRaporIndir,1000,cb);
 									}else{
 										
-										errorLog('insertZReports Error:' ,err);
+										errorLog(`${dbModel.dbName.yellow} insertZReports Error:` ,err);
 										index++;
 										setTimeout(zRaporIndir,1000,cb);
 									}
 								});
 							}else{
 								
-								eventLog('download getZReport Error:' , err);
+								errorLog(`${dbModel.dbName.yellow} download getZReport Error:` , err);
 								if(err.errno!=undefined){
 									if(err.errno=='ETIMEDOUT'){
-										eventLog('download getZReport Error: 30sn sonra yeniden deniyoruz' , {});
+										eventLog(`${dbModel.dbName.yellow} download getZReport Error: 30sn sonra yeniden deniyoruz`)
 										setTimeout(zRaporIndir,30000,cb);
 									}else{
 										index++;
-										errorLog('getZReport Error:' ,err);
+										errorLog(`${dbModel.dbName.yellow} getZReport Error:` ,err);
 										setTimeout(zRaporIndir,1000,cb);
 										//cb(err);
 									}
 								}else{
 									index++;
-									eventLog('getZReport Error:' ,err);
+									errorLog(`${dbModel.dbName.yellow} getZReport Error:` ,err);
 									setTimeout(zRaporIndir,1000,cb);
 									//cb(err);
 								}
@@ -53,7 +53,7 @@ exports.download=(dbModel,serviceDoc,posDeviceDocs,callback)=>{
 						});
 					}else{
 						index++;
-						errorLog('generateReqOption Error:' , err);
+						errorLog(`${dbModel.dbName.yellow} generateReqOption Error:` , err);
 						setTimeout(zRaporIndir,1000,cb);
 						//cb(err);
 					}
@@ -67,9 +67,9 @@ exports.download=(dbModel,serviceDoc,posDeviceDocs,callback)=>{
 	
 		zRaporIndir((err)=>{
 			if(!err){
-				eventLog('ingenico pos device service download completed:',serviceDoc.name,' total device:',posDeviceDocs.length);
+				eventLog(`${dbModel.dbName.yellow} ingenico pos device service download completed:`,serviceDoc.name,' total device:',posDeviceDocs.length);
 			}else{
-				errorLog('ingenico pos device service download error:' , err);
+				errorLog(`${dbModel.dbName.yellow} ingenico pos device service download error:` , err);
 			}
 			callback(err);
 		});
@@ -108,7 +108,7 @@ function insertZReports(dbModel,posDeviceDoc,ZReportItems,callback){
 	
 	dahaOncedenKaydedilmisMi((err)=>{
 		if(!err){
-			eventLog('insertZReports ZReportItems.length:',ZReportItems.length.toString());
+			eventLog(`${dbModel.dbName.yellow} insertZReports ZReportItems.length:`,ZReportItems.length.toString());
 			if(ZReportItems.length==0) return callback(null);
 			var data=[];
 			ZReportItems.forEach((e)=>{
@@ -161,7 +161,9 @@ function generateReqOption(dbModel,posDeviceDoc,cb){
 				reqOptions.StartDate=maxZDate.toISOString();
 				//reqOptions.ZNo=docs[0]['zNo']+1;
 			}
-
+			if(dbModel.dbName=='KOBE'){
+				console.log(`${dbModel.dbName.yellow} reqOptions:`,reqOptions)
+			}
 			cb(null,reqOptions);
 		}else{
 			cb(err);
@@ -172,7 +174,7 @@ function generateReqOption(dbModel,posDeviceDoc,cb){
 
 function defaultStartDate(){
 	
-	return (new Date((new Date()).getFullYear(),4,27,0,(new Date()).getTimezoneOffset()*-1,0)).toISOString();
+	return (new Date((new Date()).getFullYear(),0,1,0,(new Date()).getTimezoneOffset()*-1,0)).toISOString();
 }
 
 // function defaultEndDate(){

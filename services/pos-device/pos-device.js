@@ -3,27 +3,40 @@ var ingenico=require('./ingenico/ingenico.js')
 var repeatInterval=60000
 
 exports.start=()=>{
-	Object.keys(repoDb).forEach((_id)=>{
-		console.log(`start ${repoDb[_id].dbName}:`)
-		setTimeout(()=>{
-			syncPosDeviceSync(repoDb[_id])/15
-		},20000)
-	})
+	
+	function calistir(){
+		refreshRepoDb(()=>{
+			Object.keys(repoDb).forEach((_id)=>{
+				if(!repoDb[_id].working){
+					repoDb[_id].working=true
+					syncPosDeviceSync(repoDb[_id],()=>{
+						repoDb[_id].working=false
+					})
+				}else{
+					console.log(`${repoDb[_id].dbName.yellow} is working`)
+				}
+			})
+		})
+		setTimeout(calistir,repeatInterval)
+	}
+
+	calistir()
 }
 
 
-function syncPosDeviceSync(dbModel){
+function syncPosDeviceSync(dbModel,cb){
+	
 	eventLog(`syncPosDeviceSync on ${dbModel.dbName.yellow}`)
 	try{
 		checkDbAndDownload(dbModel,(err)=>{
 			if(err){
 				errorLog(`Error: syncPosDeviceSync db:${dbModel.dbName.yellow}`,err)
 			}
-			setTimeout(()=>{ syncPosDeviceSync(dbModel) },repeatInterval)
+			cb()
 		})
 	}catch(tryErr){
-		console.error(`tryErr:`,tryErr)
-		setTimeout(()=>{ syncPosDeviceSync(dbModel) },repeatInterval)
+		errorLog(`tryErr:`,tryErr)
+		cb()
 	}
 }
 
@@ -42,10 +55,10 @@ function checkDbAndDownload(dbModel,callback){
 				}else{
 					dbModel.pos_devices.find({service:serviceDocs[index]._id,passive:false},(err,posDeviceDocs)=>{
 						if(!err){
-							
+							console.log(`checkDbAndDownload ${dbModel.dbName} index:${index}:`)
 							downloadData(dbModel,serviceDocs[index],posDeviceDocs,(err)=>{
 								if(err){
-									errorLog(`(${dbModel.dbName.yellow}) ${serviceDocs[index].serviceType.cyan} _id:${serviceDocs[index]._id.cyan}:`,err)
+									errorLog(`(${dbModel.dbName.yellow}) ${serviceDocs[index].type.cyan} _id:${serviceDocs[index]._id.cyan}:`,err)
 								}
 								index++
 								setTimeout(runService,3000,cb)
@@ -69,7 +82,7 @@ function checkDbAndDownload(dbModel,callback){
 
 function downloadData(dbModel,serviceDoc,posDeviceDocs,cb){
 	
-	switch(serviceDoc.serviceType){
+	switch(serviceDoc.type){
 		case 'ingenico':
 		ingenico.download(dbModel,serviceDoc,posDeviceDocs,cb)
 		break

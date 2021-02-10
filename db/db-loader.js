@@ -1,15 +1,21 @@
 global.dbType=require('./db-types')
+
+
 module.exports=(cb)=>{
 	init((err)=>{
 		if(!err){
 			moduleLoader(path.join(__dirname, 'master.collections'),'.collection.js','master db',(err,holder)=>{
 				if(!err){
 					global.db=holder
+					global.repoDb={}
 					moduleLoader(path.join(__dirname, 'repo.collections'),'.collection.js','repository db',(err,holder)=>{
 						if(!err){
 							global.repoDbModels=holder
-							exports.init_all_databases((err)=>{
-								cb(err)
+							// exports.init_all_databases((err)=>{
+							// 	cb(err)
+							// })
+							refreshRepoDb(()=>{
+								cb(null)
 							})
 						}else{
 							cb(err)
@@ -26,6 +32,65 @@ module.exports=(cb)=>{
 	})
 	
 }
+
+
+global.refreshRepoDb=function(callback){
+	Object.keys(repoDb).forEach((key)=>{
+		repoDb[key].passive=true
+	})
+	db.dbdefines.find({deleted:false,passive:false},(err,docs)=>{
+		if(!err){
+			var startFunc=(new Date()).yyyymmddhhmmss()
+			var veriAmbarlari=[]
+			docs.forEach((doc,index)=>{
+				doc['finish']=false
+				veriAmbarlari.push(doc)
+			})
+
+			veriAmbarlari.forEach((doc)=>{
+				if(repoDb[doc._id]==undefined){
+					exports.connectDatabase(doc,(err)=>{
+						doc.finish=true
+					})
+				}else{
+					repoDb[doc._id].passive=false
+					doc.finish=true
+				}
+				
+			})
+
+
+			function kontrolet(cb){
+				var bitmemisVar=false
+				veriAmbarlari.forEach((doc)=>{
+					if(doc.finish==false){
+						bitmemisVar=true
+						return
+					}
+				})
+				if(bitmemisVar){
+					setTimeout(kontrolet,0,cb)
+				}else{
+					cb(null)
+				}
+			}
+
+			kontrolet((err)=>{
+				Object.keys(repoDb).forEach((key)=>{
+					if(repoDb[key].passive){
+						repoDb[key]=undefined
+						delete repoDb[key]
+					}
+				})
+				callback(err)
+			})
+
+		}else{
+			callback(err)
+		}
+	})
+}
+
 
 
 function init(callback){
@@ -203,8 +268,7 @@ function moduleLoader(folder,suffix,expression,cb){
 
 		cb(null,moduleHolder)
 	}catch(e){
-		errorLog(
-		         `moduleLoader Error:
+		errorLog(`moduleLoader Error:
 		         folder:${folder} 
 		         suffix:${suffix}
 		         expression:${expression}
@@ -235,14 +299,7 @@ exports.connectDatabase=function(dbDoc,cb){
 		repoDb[dbDoc._id]['dbName']=dbDoc.dbName
 		repoDb[dbDoc._id]['authorizedMembers']=dbDoc.authorizedMembers || []
 		repoDb[dbDoc._id]['conn']=usrConn
-		
 
-		// exports.settings(dbDoc._id,(err,settings)=>{
-
-		// 	repoDb[dbDoc._id]['settings']=settings
-		// 	if(cb)
-		// 		cb(null)
-		// })
 		if(cb)
 			cb(null)
 	}) 
@@ -256,7 +313,7 @@ exports.connectDatabase=function(dbDoc,cb){
 
 
 exports.init_all_databases=function(callback){
-	global.repoDb={}
+	
 	db.dbdefines.find({deleted:false,passive:false},(err,docs)=>{
 		if(!err){
 			var startFunc=(new Date()).yyyymmddhhmmss()
