@@ -1,5 +1,8 @@
 module.exports=function(conn){
 	var schema = mongoose.Schema({
+		partyId: {type: mongoose.Schema.Types.ObjectId, ref: 'items', default:null},
+		generated: {type: Boolean, default: false},
+		cancelled: {type: Boolean, default: false},
 		partyType:{ type: String, trim:true, default: '',enum:['Customer','Vendor','CustomerAgency','VendorAgency']},
 		mainParty: {type: mongoose.Schema.Types.ObjectId, 
 			ref: 'parties',
@@ -54,11 +57,11 @@ module.exports=function(conn){
 	schema.on('init', function(model) {
 
 	})
-	
+
 
 	schema.plugin(mongoosePaginate)
 	schema.plugin(mongooseAggregatePaginate)
-	
+
 	schema.index({
 		"partyName.name.value":1,
 		"partyType":1,
@@ -72,10 +75,10 @@ module.exports=function(conn){
 		"tags":1
 	})
 
-	var collectionName='parties'
+	var collectionName='autonew_parties'
 	var model=conn.model(collectionName, schema)
-	
+
 	model.removeOne=(member, filter,cb)=>{ sendToTrash(conn,collectionName,member,filter,cb) }
-	
+
 	return model
 }

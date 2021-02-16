@@ -161,9 +161,7 @@ function generateReqOption(dbModel,posDeviceDoc,cb){
 				reqOptions.StartDate=maxZDate.toISOString();
 				//reqOptions.ZNo=docs[0]['zNo']+1;
 			}
-			if(dbModel.dbName=='KOBE'){
-				console.log(`${dbModel.dbName.yellow} reqOptions:`,reqOptions)
-			}
+		
 			cb(null,reqOptions);
 		}else{
 			cb(err);

@@ -1,6 +1,6 @@
 module.exports=function(conn){
     var schema = mongoose.Schema({
-        name: {type: String, trim:true, required: true},
+        name: {type: String, trim:true, required: true,index:true},
         createdDate: { type: Date,default: Date.now},
         modifiedDate:{ type: Date,default: Date.now}
     })

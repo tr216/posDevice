@@ -14,7 +14,7 @@ module.exports=function(conn){
         ID: dbType.idType,
         uuid: dbType.valueType,
         issueDate: {value :{ type: String,  required: [true,'Irsaliye tarihi gereklidir']}},
-        issueTime: {value :{ type: String,default: '00:00:00',minlength:[8,'Saat degeri en az 10 karakter uzunlugunda olmalidir.']}},
+        issueTime: {value :{ type: String,default: '00:00:00',minlength:[8,'Saat degeri en az 8 karakter uzunlugunda olmalidir.']}},
         despatchAdviceTypeCode: {value: { type: String,default: '', trim:true, enum:['SEVK','MATBUDAN'], required: true}},
         despatchPeriod: dbType.periodType,
         note:[dbType.valueType],

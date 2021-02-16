@@ -4,7 +4,7 @@
 			"port" : 3700
 		},
 		"mongodb": {
-			"address":"mongodb://localhost:27017/etuliaportal",
+			"address":"mongodb://localhost:27017/local_masterdb",
 			"userAddress":"mongodb://localhost:27017/"
 		},
 		"connectorService":{
